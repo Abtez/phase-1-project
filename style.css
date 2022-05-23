@@ -47,7 +47,10 @@ main{
     flex-wrap: wrap;
 }
 
-
+#comment-list{
+  list-style-type: none;
+  padding-left: 0px;
+}
 
 
 
@@ -165,7 +168,7 @@ button:focus {
   }
 }
 .movie-card__header {
-  margin-bottom: 2em;
+  margin-bottom: 0.2em;
 }
 .movie-card__title {
   color: #ffffff;
@@ -173,9 +176,9 @@ button:focus {
   opacity: 0.75;
 }
 .movie-card__info {
-  text-transform: uppercase;
+  text-transform: capitalize;
   letter-spacing: 2px;
-  font-size: 0.8em;
+  font-size: 0.7em;
   color: #32cd32;
   line-height: 1;
   margin: 0;
@@ -186,7 +189,7 @@ button:focus {
   color: white;
   font-weight: 500;
   opacity: 0.84;
-  margin-bottom: 2em;
+  margin-bottom: 1em;
 }
 
 h1,
@@ -208,6 +211,7 @@ h3 {
 .btn-outline {
   background-color: transparent;
   border: 3px solid #ffffff;
+  margin-bottom: 10px;
 }
 
 .btn::before {

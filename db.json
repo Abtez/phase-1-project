@@ -1,0 +1,22 @@
+{
+    "comments": [
+        {
+            "id":1,
+            "movie_id": 752623,
+            "content": "Very cool",
+            "likes": 19
+        },
+        {
+            "id":2,
+            "movie_id": 453395,
+            "content": "Boring",
+            "likes": 0
+        },
+        {
+            "id":3,
+            "movie_id": 406759,
+            "content": "Must watch!",
+            "likes": 200
+        }
+    ]
+}
