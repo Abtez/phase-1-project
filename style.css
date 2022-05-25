@@ -41,6 +41,7 @@ main{
 }
 
 .card{
+    width: 70% !important;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -52,9 +53,26 @@ main{
   padding-left: 0px;
 }
 
+.container{
+  display: flex;
+  flex-direction: row;
+}
 
+.reviews{
+  padding: 0px;
+}
 
+.reviews > li{
+  list-style-type: none;
+  padding: 10px;
+  border: 1px solid green;
+  margin-bottom: 9px;
+}
 
+.like{
+  margin-top: 15px;
+  border-top: 1px solid #32cd32;
+}
 
 
 

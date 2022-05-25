@@ -1,9 +1,9 @@
 
 const url = 'https://api.themoviedb.org/3/discover/movie?api_key=34a9687dacfd65f1330027e3c4a8bbed&language=en-US&sort_by=popularity.desc&page=1'
-const commentUrl = 'http://localhost:3000/comments'
+const commentUrl = 'http://localhost:3000/comments/'
+const form = document.querySelector('form')
 let movieData = ''
-let commentData = []
-let cmmnt = ''
+let commentData = ''
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -12,75 +12,138 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function getAll(){
     getMovies()
-    // getComments()
+    getComments()
+    submitComment()
 }
 
 function getMovies(){
-    fetch(commentUrl).then(res => res.json())
-    .then(comments => {
-        commentData = comments
-    
     fetch(url).then(res => res.json())
     .then(result => {
         let movies = result.results
-        singleMovie(movies, commentData)
-    })
-  })  
+        movies.forEach(movie => {
+            singleMovie(movie)
+        });
+    })  
 }
 
-// function getComments(){
-//     fetch(commentUrl).then(res => res.json())
-//     .then(comments => {
-//         comments.forEach(comment => {
-//             commentData = comment
-//             return commentData
-//         });
+function getComments(){
+    fetch(commentUrl).then(res => res.json())
+    .then(comments => {
+        comments.forEach(comment => {
+            singleComment(comment)
+        });        
+    })
+}
+
+function singleMovie(movie){
+    let title = movie.original_title.substring(0, 18);
+    let overview = movie.overview.substring(0, 120);
+
+    movieData += `
+    <div class="movie-card" id="poster" style="background-image: url( 'https://image.tmdb.org/t/p/original${movie.poster_path}' );">
+        <div class="movie-card__overlay"></div>                    
+            <div class="movie-card__content">
+                <div class="movie-card__header">
+                <h2 id="title" class="movie-card__title">${title}...</h2>
+                <small id="released" class="movie-card__info">Released ${movie.release_date}</small>
+                </div>
+                <p id="overview" class="movie-card__desc">${overview}...</p>
+                <button id="like-btn" class="btn btn-outline movie-card__button" type="button"><span id="likes">${movie.vote_count}</span> Likes</button>
+
+            </div>                    
+    </div> 
+    `
+    const mainContent = document.getElementById('home')
+    mainContent.innerHTML = movieData
+}
+
+function singleComment(comment){
+    const likeBtn =  document.createElement('button')
+    const editBtn =  document.createElement('button')
+    const li = document.createElement('li')
+    const span = document.createElement('span')
+    const br = document.createElement('br')
+
+    li.innerHTML = comment.content
+    likeBtn.style.marginLeft = '5px'
+    likeBtn.innerHTML = 'Like'
+    likeBtn.style.backgroundColor = 'Lime'
+
+    likeBtn.addEventListener('click', () => {
+        like(comment);
         
-//     })
-// }
+    })
 
-function singleMovie(movies, comments){
-    movies.forEach(movie => {
-        let title = movie.original_title.substring(0, 18);
-        let overview = movie.overview.substring(0, 120);
+    editBtn.innerHTML = 'Edit'
+    editBtn.style.backgroundColor = 'yellow'
+    editBtn.style.marginLeft = '5px'
 
-        movieData += `
-        <div class="movie-card" id="poster" style="background-image: url( 'https://image.tmdb.org/t/p/original${movie.poster_path}' );">
-            <div class="movie-card__overlay"></div>                    
-                <div class="movie-card__content">
-                    <div class="movie-card__header">
-                    <h2 id="title" class="movie-card__title">${title}...</h2>
-                    <small id="released" class="movie-card__info">Released ${movie.release_date}</small>
-                    </div>
-                    <p id="overview" class="movie-card__desc">${overview}...</p>
-                    <button oncli id="like-btn" class="btn btn-outline movie-card__button" type="button"><span id="likes">2</span> Likes</button>
-                    <br>
-                    <h4 style="text-decoration: underline; margin: 0;">Comments</h4>
-                </div>                    
-        </div> 
-        `
-        const mainContent = document.getElementById('home')
-        mainContent.innerHTML = movieData
-    });
+    editBtn.addEventListener('click', () => {
+        editPost()
+    })
+
     
-    console.log("movie ", comments);
 
+    span.innerHTML = comment.likes + ' Likes'
+    span.className = 'like'
+    // commentData += `
+    // <li>${comment.content} 
+    // <button  id="likeBtn" style="background-color: lime;">Like</button> 
+    // <button id="edit-btn" style="background-color: yellow;">Edit</button>
+    // <br>
+    // <span>
+    //     <span class="like" id="like">${comment.likes} Likes</span>
+    // </span>
+    // </li>
+    // `
+    li.appendChild(likeBtn)
+    li.appendChild(editBtn)
+    li.append(br)
+    li.append(span)
+    
+    const reviews = document.getElementById('reviews')
+    reviews.appendChild(li)
+
+}
+
+function like(comment){
+    comment.likes++
+    updateLikes(comment)
+}
+
+function updateLikes(comment){
+    fetch(commentUrl + `${comment.id}`, {method: 'PATCH', headers: {
+        'content-type': 'application/json'
+    }, body: JSON.stringify(comment)
+  }).then(res => res.json()).then(comment => singleComment(comment))
+}
+
+function editPost(comment){
+    let formData = form.feedback
+    formData.value = comment.content
+    console.log(formData);
 }
 
 function submitComment(){
-    const form = document.querySelector('form')
-    form.addEventListener('submit',event => {
+    form.addEventListener('submit', event => {
         event.preventDefault()
-        const comment = form.comment.value;
-        addComment(comment)
+        const content = form.feedback.value;
+        const comment = {
+            movie_id: Math.floor(Math.random() * 100000),
+            content: content,
+            likes: 0
+        }
+        postComment(comment)
     })
 }
 
-
-
-
-
-
+function postComment(comment){
+    fetch(commentUrl, {method: 'POST', headers: {
+        'content-type': 'application/json',
+        "Access-Control-Allow-Origin": "*"
+    }, body: JSON.stringify(comment)
+  }).then(res => res.json()).then(comment => singleComment(comment))
+}
 
 
 
@@ -137,12 +200,6 @@ function submitComment(){
 //     })
 // }
 
-// function addComment(comment){
-//     const comments = document.createElement('li')
-//     comments.innerHTML = comment
-    
-//     document.getElementById('comment-list').appendChild(comments)
-// }
 
 
 

@@ -23,26 +23,52 @@
 
     <main>
         <section>
-            <div id="home" class="card">
-                <!-- <div class="movie-card" id="poster" style="background-image: url( 'https://image.tmdb.org/t/p/original${movie.poster_path}' );">
-                    <div class="movie-card__overlay"></div>                    
-                    <div class="movie-card__content">
-                        <div class="movie-card__header">
-                        <h2 id="title" class="movie-card__title">Tet</h2>
-                        <small id="released" class="movie-card__info">Released Jan 2021</small>
-                        </div>
-                        <p id="overview" class="movie-card__desc">Tetman walking...</p>
-                        <button oncli id="like-btn" class="btn btn-outline movie-card__button" type="button"><span id="likes">2</span> Likes</button>
-                        <form action="">
-                            <input type="text" placeholder="Add Comment" id="comment">
-                            <input type="submit" value="Submit">
-                        </form>
-                        <br>
-                        <h4 style="text-decoration: underline; margin: 0;">Comments</h4>
-                        <ul id="comment-list"></ul>
-                    </div>                    
-                    </div>                     -->
+            <div class="container">
+
+                <div id="home" class="card">
+                    
+                    <!-- <div class="movie-card" id="poster" style="background-image: url( 'https://image.tmdb.org/t/p/original${movie.poster_path}' );">
+                        <div class="movie-card__overlay"></div>                    
+                        <div class="movie-card__content">
+                            <div class="movie-card__header">
+                            <h2 id="title" class="movie-card__title">Tet</h2>
+                            <small id="released" class="movie-card__info">Released Jan 2021</small>
+                            </div>
+                            <p id="overview" class="movie-card__desc">Tetman walking...</p>
+                            <button oncli id="like-btn" class="btn btn-outline movie-card__button" type="button"><span id="likes">2</span> Likes</button>
+                            <form action="">
+                                <input type="text" placeholder="Add Comment" id="comment">
+                                <input type="submit" value="Submit">
+                            </form>
+                            <br>
+                            <h4 style="text-decoration: underline; margin: 0;">Comments</h4>
+                            <ul id="comment-list"></ul>
+                        </div>                    
+                        </div>                     -->
+                </div>
+
+                <div class="feedback">
+                    <h2 style="border-bottom: 2px solid green;">Feedback Portal</h2>
+
+                    <ul class="reviews" id="reviews">
+                        <li>The multiverse of madness has not been released?
+                            <button id="like-btn" style="background-color: lime;">Like</button> 
+                            <button id="edit-btn" style="background-color: yellow;">Edit</button>
+                            <br>
+                            <span>
+                                <span class="like" id="like">0 Likes</span>
+                            </span>
+                        </li>
+                    </ul>
+
+                    <form action="">
+                        <input type="text" placeholder="Add a review" id="feedback" required>
+                        <input type="submit" value="Post">
+                    </form>
+                </div>
+
             </div>
+            
         </section>
     </main>
 </body>
